@@ -1,10 +1,8 @@
+import { redirect } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async function ({ fetch, url }) {
-	const res = await fetch(`/search/${url.searchParams.get('q') ?? ''}`);
-	const { businesses } = await res.json();
-
-	return {
-		businesses
-	};
+	const target = new URL('https://bitekarma.com/wa/seattle/search');
+	target.searchParams.set('q', url.searchParams.get('q') ?? '');
+	throw redirect(301, target.toString());
 };
