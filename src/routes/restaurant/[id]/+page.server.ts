@@ -42,6 +42,11 @@ export const load: PageServerLoad = async function ({ fetch, params }) {
 	);
 
 	const fritter = (await fritterResponse.json()) as any;
+
+	if (fritter.length === 0) {
+		throw redirect(301, 'https://bitekarma.com');
+	}
+
 	const fritterId = fritter[0].id.split('-')[1];
 	// Rebuild the url and redirect the customer
 	throw redirect(301, `https://bitekarma.com/wa/seattle/${slugify(business.name)}-${fritterId}`);
